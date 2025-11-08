@@ -1,16 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
-
-function getClient() {
-  if (!supabaseUrl || !supabaseKey) return null;
-  return createClient(supabaseUrl, supabaseKey, {
-    auth: { persistSession: false },
-    global: { fetch: (input, init) => fetch(input, { cache: "no-store", ...init }) },
-  });
-}
+import { getSupabaseServiceClient } from "@/lib/supabaseServer";
 
 export const revalidate = 0;
 
@@ -21,7 +10,7 @@ export async function GET(request) {
     return NextResponse.json({ error: "Missing userId" }, { status: 400 });
   }
 
-  const client = getClient();
+  const client = getSupabaseServiceClient();
   if (!client) {
     return NextResponse.json({ likes: [], dislikes: [], source: "no_supabase" }, { status: 200 });
   }
@@ -50,7 +39,7 @@ export async function POST(request) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const client = getClient();
+  const client = getSupabaseServiceClient();
   if (!client) {
     return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
   }

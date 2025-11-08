@@ -186,6 +186,18 @@ export function DinnerProvider({ children }) {
   }, [filters]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!Array.isArray(restaurantsCache)) return;
+    try {
+      if (restaurantsCache.length) {
+        localStorage.setItem("dd_last_shortlist", JSON.stringify(restaurantsCache));
+      } else {
+        localStorage.removeItem("dd_last_shortlist");
+      }
+    } catch {}
+  }, [restaurantsCache]);
+
+  useEffect(() => {
     try { localStorage.setItem("dd_user", JSON.stringify(user)); } catch {}
   }, [user]);
 

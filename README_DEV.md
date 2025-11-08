@@ -255,9 +255,69 @@ R2 Dedup: { shown: 2, remaining: 3 }
 13 → QA + accessibility.
 14 → Public launch.
 
+---PS C:\Application Development Projects\DinnerDecider> npm run dev
+
+> dinnerdecider@0.1.0 dev
+> next dev -p 3003
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3003
+   - Network:      http://192.168.1.229:3003
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 5s
+ ○ Compiling /dinnerdecider ...
+ ✓ Compiled /dinnerdecider in 10.5s (4704 modules)
+ GET /dinnerdecider 200 in 13675ms
+ ○ Compiling /api/weather ...
+ ✓ Compiled /api/weather in 2.7s (4724 modules)
+🌦️ [API CALL] {
+  endpoint: 'https://api.openweathermap.org/data/2.5/weather?lat=30.1268992&lon=-81.4809088&appid=9c15a2bb51e846b962f47874861f0ecd&units=metric',
+  lat: 30.1268992,
+  lng: -81.4809088
+}
+ GET /dinnerdecider 200 in 483ms
+🌈 [API RESPONSE] {
+  status: 200,
+  ok: true,
+  durationMs: 383,
+  condition: 'clear sky',
+  temperatureC: 18.46,
+  humidity: 81
+}
+ GET /api/weather?lat=30.1268992&lng=-81.4809088 200 in 3438ms
+ ○ Compiling /dinnerdecider/group ...
+ ✓ Compiled /dinnerdecider/group in 1293ms (4717 modules)
+ GET /dinnerdecider/group 200 in 1945ms
+ ○ Compiling /dinnerdecider/group/[code] ...
+ ✓ Compiled /dinnerdecider/group/[code] in 2.6s (4896 modules)
+ GET /dinnerdecider/group/DL2A9X 200 in 4572ms
+
+## � Phase 8.9 — Oracle fallback + R2 stabilization
+
+### Scope & Objectives
+- Harden R2 rotations so rerolls stay fresh and observable across Oracle fallback paths.
+- Ship resilient AI suggestion flows that gracefully degrade when OpenAI is unavailable.
+- Capture context (mood, weather, time, preferences) end-to-end so Places, AI, and analytics share the same signal stack.
+
+### Product & Flow Revisions
+- Introduced evening “Tonight’s vibe” selector (`MoodSelector`) and piped its state through fetch → randomize → output, influencing AI and fallback messaging.
+- Updated output/randomize dashboards to surface contextual insights, dedupe rotations, and log R2 filter summaries for QA.
+- Added group/fetch/profile tweaks to respect the new signal payloads, prep preferences POST wiring, and keep referral/rotation flows aligned.
+
+### Implementation Highlights
+- Added API routes: `/api/openai/suggest` (cached OpenAI call + heuristic fallback), `/api/places` (server proxy with trace logging), `/api/preferences` (Supabase bridge), `/api/weather` (OpenWeather cache + latency reporting).
+- Created `getTimeCategory` utility to normalize time-of-day buckets (Breakfast/Lunch/Brunch/Late Night) and injected them into context, analytics, and suggestions.
+- Expanded `DinnerContext`, `aiRecommender`, and `fetchNearbyRestaurants` to carry mood/weather/time/prefs signals, emit structured debug logs, and maintain rotation metadata for Phase 8 QA.
+
+### Operational Updates
+- Tightened repo hygiene: refreshed `.gitignore`, added `.gitattributes`, and wired a GitHub Actions CI job (`ci.yml`) to run install → lint → build on push/PR.
+- Documented Phase 8.9 changes in `CHANGELOG.md`, DEV handoff notes, and this handbook; pushed clean history without tracked build artifacts.
+
 ---
 
-## 🪪 Credits
+## �🪪 Credits
 
 **Product Owner:** Q. S. Carter  
 **Lead Developer (AI):** [AI Agent or GitHub Copilot Chat]  

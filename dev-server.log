@@ -1,0 +1,12 @@
+
+> dinnerdecider@0.1.0 dev
+> next dev -p 3003
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3003
+   - Network:      http://192.168.7.220:3003
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2s
+[?25h
