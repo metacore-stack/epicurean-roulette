@@ -317,6 +317,16 @@ R2 Dedup: { shown: 2, remaining: 3 }
 
 ---
 
+## 🚀 Phase 9 Beta Deployment
+
+- **Branch promotion:** `phase-9-group-up-w-pr` fast-forwarded and force-pushed to `main` after clean `npm run lint` and `npm run build`.
+- **Vercel project:** connect `DinnerDecider` under account `Qcarr333`, keep framework set to Next.js with `next build` and `.next` output, root `/`, and enable deploy hooks for `main`.
+- **Environment variables:** mirror every key from `.env.local` into Vercel with Production + Preview scope (see table above for expected IDs/secrets).
+- **Smoke routes:** validate `/`, `/dinnerdecider/randomize`, and `/dinnerdecider/group/[code]` against Supabase realtime, Google Places fetch, and OpenAI suggest endpoints.
+- **Beta policies:** ensure Preview Deployments stay on for feature branches, mark `main` as the production branch, and add project note “Phase 9 Beta Build — Supabase Group Voting Sync Live.”
+
+---
+
 ## �🪪 Credits
 
 **Product Owner:** Q. S. Carter  
