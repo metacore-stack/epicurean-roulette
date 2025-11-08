@@ -13,7 +13,7 @@ export const FOOD_TYPES = {
     { id: "korean", label: "Korean", icon: "Drumstick", notes: "BBQ, fried chicken" },
     { id: "middle_eastern", label: "Middle Eastern", icon: "Sandwich", notes: "Shawarma, falafel" },
     { id: "caribbean", label: "Caribbean", icon: "Sun", notes: "Jerk, seafood, tropical" },
-    { id: "african", label: "African", icon: "Leaf", notes: "Ethiopian, Nigerian, Moroccan" },
+  { id: "puerto_rican", label: "Puerto Rican", icon: "Leaf", notes: "Mofongo, pernil, criolla classics" },
     { id: "fusion", label: "Fusion", icon: "Sparkles", notes: "Mixed-cuisine innovation" },
   ],
   experience: [
